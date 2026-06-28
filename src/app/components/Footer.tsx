@@ -1,5 +1,14 @@
 import { Scale, Phone, Mail, MapPin, ArrowUp, Linkedin, Twitter, Facebook } from "lucide-react";
 import { Button } from "./ui/button";
+import { navigateToPage } from "./Router";
+
+const socialLinks = [
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/search/results/companies/?keywords=TH%20Manyika%20Attorneys" },
+  { icon: Twitter, label: "Twitter", href: "https://twitter.com/search?q=TH%20Manyika%20Attorneys" },
+  { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/search/top?q=TH%20Manyika%20Attorneys" },
+];
+
+const serviceLinks = ["Corporate Law", "Employment Law", "Property Law", "Contract Law", "Litigation", "Legal Compliance"];
 
 export function Footer() {
   const scrollToTop = () => {
@@ -29,27 +38,35 @@ export function Footer() {
               for over 15 years. Your trusted legal partner committed to delivering exceptional results and professional excellence.
             </p>
             <div className="flex space-x-4">
-              <div className="bg-white/10 p-2 rounded-lg hover:bg-accent/20 transition-colors cursor-pointer">
-                <Linkedin className="h-5 w-5" />
-              </div>
-              <div className="bg-white/10 p-2 rounded-lg hover:bg-accent/20 transition-colors cursor-pointer">
-                <Twitter className="h-5 w-5" />
-              </div>
-              <div className="bg-white/10 p-2 rounded-lg hover:bg-accent/20 transition-colors cursor-pointer">
-                <Facebook className="h-5 w-5" />
-              </div>
+              {socialLinks.map(({ icon: Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="bg-white/10 p-2 rounded-lg hover:bg-accent/20 transition-colors"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              ))}
             </div>
           </div>
           
           <div>
             <h4 className="font-bold text-lg mb-6 text-accent">Legal Services</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Corporate Law</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Employment Law</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Property Law</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Contract Law</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Litigation</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Legal Compliance</a></li>
+              {serviceLinks.map((service) => (
+                <li key={service}>
+                  <button
+                    type="button"
+                    onClick={() => navigateToPage("services")}
+                    className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium text-left"
+                  >
+                    {service}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
           
@@ -62,8 +79,8 @@ export function Footer() {
               <li><a href="#contact" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Contact</a></li>
               <li><a href="#appointments" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Online Appointments</a></li>
               <li><a href="#admin" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium text-xs opacity-70">Admin Dashboard</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Terms of Service</a></li>
+              <li><a href="#privacy" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Privacy Policy</a></li>
+              <li><a href="#terms" className="text-gray-300 hover:text-accent transition-colors duration-300 font-medium">Terms of Service</a></li>
             </ul>
           </div>
           
@@ -93,7 +110,7 @@ export function Footer() {
                   <Mail className="h-4 w-4 text-accent" />
                 </div>
                 <div>
-                  <p className="text-gray-300 font-medium">admin@thmattorrneys.com</p>
+                  <p className="text-gray-300 font-medium">admin@thmanyika.co.za</p>
                 </div>
               </div>
             </div>

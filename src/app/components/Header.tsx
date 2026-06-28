@@ -39,7 +39,7 @@ export function Header({ currentPage }: HeaderProps) {
               </div>
               <div className="flex items-center space-x-2 group cursor-pointer hover:text-accent transition-all duration-300">
                 <Mail className="h-3.5 w-3.5 group-hover:scale-110 transition-transform duration-300" />
-                <span className="font-medium">admin@thmattorrneys.com</span>
+                <span className="font-medium">admin@thmanyika.co.za</span>
               </div>
               <div className="flex items-center space-x-2 text-gray-300">
                 <MapPin className="h-3.5 w-3.5" />
@@ -267,7 +267,7 @@ export function Header({ currentPage }: HeaderProps) {
                       </div>
                       <div>
                         <div className="text-xs text-gray-500">Email Us</div>
-                        <div className="font-semibold text-gray-900 text-sm">admin@thmattorrneys.com</div>
+                        <div className="font-semibold text-gray-900 text-sm">admin@thmanyika.co.za</div>
                       </div>
                     </div>
                     <div className="flex items-start space-x-3">

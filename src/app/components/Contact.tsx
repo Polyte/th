@@ -5,6 +5,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, CheckCircle2 } from "lucide-react";
 import { db } from "../services/database";
+import { navigateToPage } from "./Router";
 
 const contactInfo = [
   {
@@ -22,7 +23,7 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    details: ["admin@thmattorrneys.com", "Main email address"],
+    details: ["admin@thmanyika.co.za", "Main email address"],
     gradient: "from-gray-800 to-gray-600"
   },
   {
@@ -174,7 +175,8 @@ export function Contact() {
                       For urgent legal matters outside business hours, our emergency hotline 
                       is available 24/7. Professional consultation rates apply.
                     </p>
-                    <Button 
+                    <Button
+                      onClick={() => (window.location.href = "tel:+27829998888")}
                       className="bg-black text-accent hover:bg-gray-800 font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                       <Phone className="h-4 w-4 mr-2" />
@@ -198,11 +200,15 @@ export function Contact() {
                 the guidance and representation you need to achieve the best possible outcome.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="bg-gradient-to-r from-accent to-yellow-500 text-black hover:from-yellow-500 hover:to-accent font-bold py-3 px-8 transition-all duration-300 hover:scale-105">
+                <Button
+                  onClick={() => navigateToPage("appointments")}
+                  className="bg-gradient-to-r from-accent to-yellow-500 text-black hover:from-yellow-500 hover:to-accent font-bold py-3 px-8 transition-all duration-300 hover:scale-105"
+                >
                   Schedule Free Consultation
                 </Button>
                 <Button 
                   variant="outline" 
+                  onClick={() => (window.location.href = "tel:+27782131116")}
                   className="border-2 border-white/30 text-white hover:bg-white hover:text-black font-semibold py-3 px-8 transition-all duration-300"
                 >
                   Call Now: +27 78 213 1116

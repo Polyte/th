@@ -63,6 +63,7 @@ function AuthGate() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [setupKey, setSetupKey] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
 
@@ -72,7 +73,7 @@ function AuthGate() {
     setBusy(true);
     try {
       if (mode === "signup") {
-        await db.adminSignup(email, password, name || "Admin");
+        await db.adminSignup(email, password, name || "Admin", setupKey);
       }
       const { error } = await getSupabase().auth.signInWithPassword({ email, password });
       if (error) throw error;
@@ -110,10 +111,16 @@ function AuthGate() {
 
         <form onSubmit={handle} className="space-y-4">
           {mode === "signup" && (
-            <div>
-              <Label>Name</Label>
-              <Input value={name} onChange={(e) => setName(e.target.value)} required />
-            </div>
+            <>
+              <div>
+                <Label>Name</Label>
+                <Input value={name} onChange={(e) => setName(e.target.value)} required />
+              </div>
+              <div>
+                <Label>Setup Key</Label>
+                <Input type="password" value={setupKey} onChange={(e) => setSetupKey(e.target.value)} required />
+              </div>
+            </>
           )}
           <div>
             <Label>Email</Label>
@@ -132,7 +139,7 @@ function AuthGate() {
         </form>
 
         <p className="text-xs text-slate-400 mt-4 text-center">
-          Admin access only. New accounts are automatically granted admin role.
+          Admin access only. New accounts require the server setup key.
         </p>
       </Card>
     </div>
@@ -148,6 +155,7 @@ function Dashboard({ session, onSignOut }: { session: any; onSignOut: () => void
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [activeCall, setActiveCall] = useState<{ appointment: Appointment; mode: "video" | "phone" } | null>(null);
+  const [refreshError, setRefreshError] = useState("");
 
   async function refresh() {
     try {
@@ -155,8 +163,10 @@ function Dashboard({ session, onSignOut }: { session: any; onSignOut: () => void
       setStats(s);
       setAppointments(a);
       setEnquiries(e);
+      setRefreshError("");
     } catch (err) {
       console.log("Refresh error:", err);
+      setRefreshError(err instanceof Error ? err.message : "Could not load dashboard data.");
     }
   }
 
@@ -220,6 +230,11 @@ function Dashboard({ session, onSignOut }: { session: any; onSignOut: () => void
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {refreshError && (
+          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+            {refreshError}
+          </div>
+        )}
         {tab === "overview" && <Overview stats={stats} appointments={appointments} enquiries={enquiries} />}
         {tab === "inbox" && <InboxView enquiries={enquiries} onChange={refresh} />}
         {tab === "appointments" && (

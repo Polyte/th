@@ -324,10 +324,11 @@ export function ServicesPage() {
             <ProfessionalButton
               variant="outline"
               size="lg"
+              onClick={() => (window.location.href = "tel:+27782131116")}
               className="border-white text-white hover:bg-white hover:text-black"
               leftIcon={<Clock className="h-5 w-5" />}
             >
-              Call Now: 011 123 4567
+              Call Now: +27 78 213 1116
             </ProfessionalButton>
           </div>
         </div>

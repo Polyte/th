@@ -5,8 +5,9 @@ import { AboutPage } from "../pages/AboutPage";
 import { ContactPage } from "../pages/ContactPage";
 import { AppointmentBooking } from "./AppointmentBooking";
 import { AdminDashboard } from "./AdminDashboard";
+import { LegalPage } from "../pages/LegalPage";
 
-export type Page = "home" | "services" | "about" | "contact" | "appointments" | "admin";
+export type Page = "home" | "services" | "about" | "contact" | "appointments" | "admin" | "privacy" | "terms";
 
 interface RouterProps {
   currentPage: Page;
@@ -19,7 +20,7 @@ export function Router({ currentPage, setCurrentPage }: RouterProps) {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1) as Page;
-      if (["home", "services", "about", "contact", "appointments", "admin"].includes(hash)) {
+      if (["home", "services", "about", "contact", "appointments", "admin", "privacy", "terms"].includes(hash)) {
         setIsTransitioning(true);
         setTimeout(() => {
           setCurrentPage(hash);
@@ -33,7 +34,7 @@ export function Router({ currentPage, setCurrentPage }: RouterProps) {
     
     // Handle initial load
     const initialHash = window.location.hash.slice(1) as Page;
-    if (["home", "services", "about", "contact", "appointments", "admin"].includes(initialHash)) {
+    if (["home", "services", "about", "contact", "appointments", "admin", "privacy", "terms"].includes(initialHash)) {
       setCurrentPage(initialHash);
     } else {
       window.location.hash = "home";
@@ -56,6 +57,10 @@ export function Router({ currentPage, setCurrentPage }: RouterProps) {
         return <AppointmentBooking />;
       case "admin":
         return <AdminDashboard />;
+      case "privacy":
+        return <LegalPage type="privacy" />;
+      case "terms":
+        return <LegalPage type="terms" />;
       default:
         return <HomePage />;
     }

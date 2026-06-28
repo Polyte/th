@@ -578,7 +578,10 @@ export function AppointmentBooking() {
 
             <h2 className="text-4xl font-bold text-gray-900 mb-3">You're all booked!</h2>
             <p className="text-gray-600 text-lg mb-8">
-              We'll send a confirmation to <span className="font-semibold">{client.email}</span> and the team has been notified.
+              {appointment.id.startsWith("local_")
+                ? "Your request has been captured. Please call us if you need urgent confirmation."
+                : "We'll send a confirmation and the team has been notified."}{" "}
+              <span className="font-semibold">{client.email}</span>
             </p>
 
             <div className="bg-white rounded-3xl p-8 border-2 border-gray-100 shadow-lg text-left space-y-4 mb-6">
@@ -592,7 +595,9 @@ export function AppointmentBooking() {
               <div className="pt-4 border-t border-gray-100">
                 <Badge className="bg-amber-100 text-amber-800 border-amber-200">Awaiting confirmation</Badge>
                 <p className="text-xs text-gray-500 mt-2">
-                  Our team will contact you shortly to confirm. For video calls, you'll receive a secure room link before your session.
+                  {appointment.id.startsWith("local_")
+                    ? "The booking API was unavailable, so this reference was created in your browser. Contact our office to confirm the slot."
+                    : "Our team will contact you shortly to confirm. For video calls, you'll receive a secure room link before your session."}
                 </p>
               </div>
             </div>

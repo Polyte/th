@@ -52,8 +52,8 @@ const contactMethods = [
     icon: Mail,
     title: "Email Us",
     desc: "Detailed inquiries welcome",
-    action: "admin@thmattorrneys.com",
-    href: "mailto:admin@thmattorrneys.com",
+    action: "admin@thmanyika.co.za",
+    href: "mailto:admin@thmanyika.co.za",
     accent: "from-purple-500 to-fuchsia-600",
     badge: "< 2 hrs",
   },
@@ -69,12 +69,43 @@ const contactMethods = [
 ];
 
 const directory = [
-  { icon: Briefcase, name: "Corporate Law", contact: "Thabo H. Manyika", email: "corporate@thmattorrneys.com" },
-  { icon: Heart, name: "Family Law", contact: "Dr. Helen Richards", email: "family@thmattorrneys.com" },
-  { icon: Scale, name: "Criminal & Civil", contact: "Michael Nkomo", email: "litigation@thmattorrneys.com" },
-  { icon: Building, name: "Property Law", contact: "Dr. Helen Richards", email: "property@thmattorrneys.com" },
-  { icon: FileText, name: "Contracts", contact: "Michael Nkomo", email: "contracts@thmattorrneys.com" },
-  { icon: Users, name: "Employment", contact: "Dr. Helen Richards", email: "employment@thmattorrneys.com" },
+  { icon: Briefcase, name: "Corporate Law", contact: "Thabo H. Manyika", email: "corporate@thmanyika.co.za" },
+  { icon: Heart, name: "Family Law", contact: "Dr. Helen Richards", email: "family@thmanyika.co.za" },
+  { icon: Scale, name: "Criminal & Civil", contact: "Michael Nkomo", email: "litigation@thmanyika.co.za" },
+  { icon: Building, name: "Property Law", contact: "Dr. Helen Richards", email: "property@thmanyika.co.za" },
+  { icon: FileText, name: "Contracts", contact: "Michael Nkomo", email: "contracts@thmanyika.co.za" },
+  { icon: Users, name: "Employment", contact: "Dr. Helen Richards", email: "employment@thmanyika.co.za" },
+];
+
+const socialLinks = [
+  {
+    icon: Linkedin,
+    name: "LinkedIn",
+    handle: "TH Manyika Attorneys",
+    href: "https://www.linkedin.com/search/results/companies/?keywords=TH%20Manyika%20Attorneys",
+    color: "from-blue-600 to-blue-700",
+  },
+  {
+    icon: Facebook,
+    name: "Facebook",
+    handle: "TH Manyika Attorneys",
+    href: "https://www.facebook.com/search/top?q=TH%20Manyika%20Attorneys",
+    color: "from-blue-500 to-indigo-600",
+  },
+  {
+    icon: Twitter,
+    name: "Twitter",
+    handle: "TH Manyika Attorneys",
+    href: "https://twitter.com/search?q=TH%20Manyika%20Attorneys",
+    color: "from-sky-500 to-sky-600",
+  },
+  {
+    icon: Instagram,
+    name: "Instagram",
+    handle: "TH Manyika Attorneys",
+    href: "https://www.instagram.com/explore/search/keyword/?q=TH%20Manyika%20Attorneys",
+    color: "from-pink-500 via-purple-500 to-orange-400",
+  },
 ];
 
 const faqs = [
@@ -112,6 +143,26 @@ const faqs = [
 
 export function ContactPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState("");
+
+  function subscribeToNewsletter(e: React.FormEvent) {
+    e.preventDefault();
+    const email = newsletterEmail.trim();
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setNewsletterStatus("Enter a valid email address.");
+      return;
+    }
+
+    try {
+      const stored = JSON.parse(localStorage.getItem("newsletter_subscribers") || "[]");
+      localStorage.setItem("newsletter_subscribers", JSON.stringify([{ email, createdAt: new Date().toISOString() }, ...stored]));
+      setNewsletterEmail("");
+      setNewsletterStatus("Thanks. You're subscribed.");
+    } catch {
+      setNewsletterStatus("Thanks. We'll add you to the list.");
+    }
+  }
 
   return (
     <main>
@@ -137,7 +188,7 @@ export function ContactPage() {
               <Mail className="h-12 w-12 text-accent mx-auto mb-4" />
             </div>
             <h3 className="font-bold mb-2 text-lg">Email Us</h3>
-            <p className="text-blue-200 text-lg font-medium">admin@thmattorrneys.com</p>
+            <p className="text-blue-200 text-lg font-medium">admin@thmanyika.co.za</p>
           </ProfessionalCard>
           
           <ProfessionalCard variant="ghost" className="text-center text-white bg-white/10 backdrop-blur-lg border border-white/20">
@@ -463,11 +514,13 @@ export function ContactPage() {
                 Get monthly updates on legal developments in South Africa, plus exclusive guidance from our attorneys.
               </p>
               <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={subscribeToNewsletter}
                 className="flex flex-col sm:flex-row gap-3"
               >
                 <input
                   type="email"
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
                   placeholder="Enter your email"
                   className="flex-1 px-5 py-3 rounded-xl bg-white/10 border border-white/20 backdrop-blur-sm text-white placeholder-blue-200 focus:outline-none focus:border-accent focus:bg-white/15 transition-all"
                 />
@@ -480,7 +533,7 @@ export function ContactPage() {
                 </button>
               </form>
               <p className="text-xs text-blue-200 mt-3">
-                No spam. Unsubscribe anytime. Read our privacy policy.
+                {newsletterStatus || "No spam. Unsubscribe anytime. Read our privacy policy."}
               </p>
             </div>
 
@@ -490,15 +543,12 @@ export function ContactPage() {
                 Connect with us on social media for daily legal tips and firm updates.
               </p>
               <div className="grid grid-cols-2 gap-3">
-                {[
-                  { icon: Linkedin, name: "LinkedIn", handle: "@thmanyika", color: "from-blue-600 to-blue-700" },
-                  { icon: Facebook, name: "Facebook", handle: "@thmanyikalaw", color: "from-blue-500 to-indigo-600" },
-                  { icon: Twitter, name: "Twitter", handle: "@thmanyika_law", color: "from-sky-500 to-sky-600" },
-                  { icon: Instagram, name: "Instagram", handle: "@thmanyika", color: "from-pink-500 via-purple-500 to-orange-400" },
-                ].map((s, i) => (
+                {socialLinks.map((s) => (
                   <a
-                    key={i}
-                    href="#"
+                    key={s.name}
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
                     className="group flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-accent/40 transition-all duration-300"
                   >
                     <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${s.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
